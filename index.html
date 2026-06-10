@@ -1,202 +1,1035 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta
-    name="description"
-    content="Portfolio case study for the VkusVill Bonus Bag sustainability project: a reusable shopper that rewarded customers for avoiding disposable plastic bags."
-  />
-  <title>VkusVill Bonus Bag — Sustainability Case Study</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="description" content="Карьерный case-study: offline-to-online loyalty-механика «Незабываемая сумка» с QR, POS-интеграцией, Mastercard-партнёрством и transaction-level analytics." />
+  <title>Незабываемая сумка — карьерный case-study</title>
+  <style>
+    :root {
+      --bg: #f6f1e7;
+      --paper: #fffaf0;
+      --ink: #142019;
+      --muted: #637067;
+      --green: #0b8f5a;
+      --green-2: #1fb574;
+      --deep: #081812;
+      --lime: #d9f36a;
+      --yellow: #ffd84d;
+      --orange: #ff8f4c;
+      --red: #eb514d;
+      --blue: #4b7bec;
+      --line: rgba(20, 32, 25, 0.12);
+      --soft: rgba(255, 250, 240, 0.82);
+      --shadow: 0 24px 70px rgba(17, 37, 25, 0.14);
+      --radius-xl: 34px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 4%, rgba(217, 243, 106, 0.58), transparent 26rem),
+        radial-gradient(circle at 86% 10%, rgba(255, 143, 76, 0.28), transparent 24rem),
+        linear-gradient(180deg, #fbf5e9 0%, var(--bg) 48%, #edf5df 100%);
+      line-height: 1.5;
+    }
+
+    a { color: inherit; }
+
+    .page { overflow: hidden; }
+
+    .shell {
+      width: min(1180px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 14px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      width: min(1180px, calc(100% - 36px));
+      margin: 14px auto 0;
+      padding: 10px 12px 10px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: 999px;
+      background: rgba(255, 250, 240, 0.78);
+      box-shadow: 0 16px 40px rgba(17, 37, 25, 0.08);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .brand::before {
+      content: "";
+      width: 26px;
+      height: 26px;
+      border-radius: 8px 8px 10px 10px;
+      background: linear-gradient(135deg, var(--lime), var(--green));
+      box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.28);
+    }
+
+    .nav__links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 4px;
+    }
+
+    .nav__links a {
+      border-radius: 999px;
+      padding: 8px 11px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .nav__links a:hover,
+    .nav__links a:focus-visible {
+      background: rgba(11, 143, 90, 0.1);
+      color: var(--green);
+      outline: none;
+    }
+
+    section { padding: 92px 0; }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      max-width: 880px;
+      margin-bottom: 22px;
+      font-size: clamp(58px, 10vw, 132px);
+      line-height: 0.86;
+      letter-spacing: -0.095em;
+    }
+
+    h2 {
+      margin-bottom: 22px;
+      font-size: clamp(36px, 5.2vw, 76px);
+      line-height: 0.96;
+      letter-spacing: -0.07em;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+      font-size: 22px;
+      line-height: 1.08;
+      letter-spacing: -0.045em;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 18px;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 2px;
+      border-radius: 99px;
+      background: currentColor;
+    }
+
+    .lead {
+      max-width: 780px;
+      color: #3e4b42;
+      font-size: clamp(19px, 2.1vw, 27px);
+      line-height: 1.28;
+      letter-spacing: -0.025em;
+    }
+
+    .small-copy {
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .card {
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: var(--radius-lg);
+      background: var(--soft);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      min-height: 91vh;
+      padding: 78px 0 88px;
+    }
+
+    .hero__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.72fr);
+      align-items: center;
+      gap: 38px;
+    }
+
+    .hero__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 30px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 13px;
+      background: rgba(255, 255, 255, 0.46);
+      color: #354139;
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .hero-art {
+      position: relative;
+      min-height: 610px;
+      padding: 22px;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(145deg, rgba(217, 243, 106, 0.94), rgba(11, 143, 90, 0.94)),
+        var(--green);
+      box-shadow: 0 34px 100px rgba(11, 143, 90, 0.28);
+    }
+
+    .hero-art::before,
+    .hero-art::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    .hero-art::before { width: 230px; height: 230px; right: -82px; top: -72px; }
+    .hero-art::after { width: 300px; height: 300px; left: -138px; bottom: -108px; }
+
+    .bag {
+      position: absolute;
+      inset: 88px 50px auto;
+      z-index: 1;
+      min-height: 330px;
+      border-radius: 32px 32px 48px 48px;
+      background: var(--paper);
+      transform: rotate(-4deg);
+      box-shadow: 0 28px 60px rgba(8, 24, 18, 0.2);
+    }
+
+    .bag::before {
+      content: "";
+      position: absolute;
+      top: -58px;
+      left: 50%;
+      width: 138px;
+      height: 90px;
+      border: 16px solid var(--paper);
+      border-bottom: 0;
+      border-radius: 90px 90px 0 0;
+      transform: translateX(-50%);
+    }
+
+    .bag__title {
+      position: absolute;
+      top: 42px;
+      left: 30px;
+      right: 30px;
+      font-size: 40px;
+      font-weight: 950;
+      line-height: 0.95;
+      letter-spacing: -0.075em;
+    }
+
+    .qr {
+      position: absolute;
+      right: 34px;
+      bottom: 34px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+      width: 116px;
+      height: 116px;
+      border: 10px solid #fff;
+      border-radius: 18px;
+      padding: 8px;
+      background: #fff;
+      box-shadow: 0 16px 34px rgba(20, 32, 25, 0.13);
+    }
+
+    .qr span { border-radius: 3px; background: var(--ink); }
+    .qr span:nth-child(2n) { opacity: 0.2; }
+    .qr span:nth-child(3n) { background: var(--green); opacity: 1; }
+
+    .bonus-coin,
+    .mc-card,
+    .receipt {
+      position: absolute;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 18px 44px rgba(8, 24, 18, 0.16);
+    }
+
+    .bonus-coin {
+      right: 24px;
+      top: 300px;
+      width: 108px;
+      height: 108px;
+      border: 7px solid rgba(255, 255, 255, 0.62);
+      border-radius: 999px;
+      background: var(--yellow);
+      font-size: 30px;
+      font-weight: 950;
+      letter-spacing: -0.07em;
+      transform: rotate(8deg);
+    }
+
+    .mc-card {
+      left: 20px;
+      bottom: 122px;
+      width: 180px;
+      height: 112px;
+      justify-items: start;
+      border-radius: 22px;
+      padding: 18px;
+      background: #151a26;
+      color: white;
+      transform: rotate(7deg);
+    }
+
+    .mc-card__circles { position: relative; width: 76px; height: 40px; }
+    .mc-card__circles::before,
+    .mc-card__circles::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      mix-blend-mode: screen;
+    }
+    .mc-card__circles::before { left: 0; background: #eb001b; }
+    .mc-card__circles::after { right: 0; background: #f79e1b; }
+    .mc-card strong { align-self: end; font-size: 14px; }
+
+    .receipt {
+      right: 38px;
+      bottom: 36px;
+      width: 210px;
+      min-height: 150px;
+      align-content: start;
+      gap: 9px;
+      border-radius: 18px;
+      padding: 20px;
+      background: #fff;
+      color: var(--ink);
+      transform: rotate(-2deg);
+    }
+
+    .receipt i {
+      display: block;
+      width: 100%;
+      height: 10px;
+      border-radius: 99px;
+      background: rgba(20, 32, 25, 0.12);
+    }
+    .receipt i:nth-child(2) { width: 74%; }
+    .receipt i:nth-child(3) { width: 88%; background: rgba(11, 143, 90, 0.22); }
+    .receipt strong { margin-top: 5px; font-size: 25px; letter-spacing: -0.06em; }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      margin-top: 44px;
+    }
+
+    .metric {
+      position: relative;
+      min-height: 166px;
+      overflow: hidden;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 250, 240, 0.74);
+      box-shadow: 0 18px 48px rgba(17, 37, 25, 0.09);
+    }
+
+    .metric::after {
+      content: "";
+      position: absolute;
+      right: -30px;
+      bottom: -34px;
+      width: 104px;
+      height: 104px;
+      border-radius: 999px;
+      background: rgba(217, 243, 106, 0.54);
+    }
+
+    .metric strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: clamp(31px, 3.1vw, 47px);
+      line-height: 0.9;
+      letter-spacing: -0.075em;
+    }
+
+    .metric span {
+      position: relative;
+      z-index: 1;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 780;
+      line-height: 1.26;
+    }
+
+    .challenge-grid {
+      display: grid;
+      grid-template-columns: 0.86fr 1.14fr;
+      gap: 34px;
+      align-items: start;
+    }
+
+    .problem-cards {
+      display: grid;
+      gap: 14px;
+    }
+
+    .problem-card {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 18px;
+      padding: 22px;
+    }
+
+    .problem-card__label {
+      align-self: start;
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: rgba(11, 143, 90, 0.11);
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 950;
+      text-align: center;
+    }
+
+    .problem-card p { margin-bottom: 8px; color: var(--muted); }
+    .problem-card strong { color: var(--ink); }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .flow-step {
+      position: relative;
+      min-height: 218px;
+      padding: 18px;
+      overflow: hidden;
+      border-radius: 26px;
+      background: #fffaf0;
+      box-shadow: 0 16px 48px rgba(17, 37, 25, 0.08);
+    }
+
+    .flow-step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -16px;
+      top: 50%;
+      z-index: 3;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--ink);
+      color: white;
+      font-weight: 900;
+      transform: translateY(-50%);
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 58px;
+      height: 58px;
+      margin-bottom: 18px;
+      border-radius: 18px;
+      background: rgba(217, 243, 106, 0.78);
+      font-size: 29px;
+    }
+
+    .flow-step h3 { font-size: 18px; }
+    .flow-step p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    .timeline-wrap {
+      position: relative;
+      margin-top: 42px;
+    }
+
+    .timeline-wrap::before {
+      content: "";
+      position: absolute;
+      left: 22px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(var(--green), rgba(11, 143, 90, 0.12));
+    }
+
+    .timeline-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 28px;
+      padding: 0 0 22px 62px;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 6px;
+      width: 25px;
+      height: 25px;
+      border: 6px solid var(--bg);
+      border-radius: 999px;
+      background: var(--green);
+      box-shadow: 0 0 0 1px rgba(11, 143, 90, 0.28);
+    }
+
+    .timeline-date {
+      color: var(--green);
+      font-weight: 950;
+      letter-spacing: -0.02em;
+    }
+
+    .timeline-card {
+      padding: 18px 20px;
+      border-radius: 20px;
+      background: rgba(255, 250, 240, 0.72);
+      box-shadow: 0 14px 32px rgba(17, 37, 25, 0.07);
+    }
+
+    .dark {
+      margin: 44px 0;
+      padding: 100px 0;
+      background:
+        radial-gradient(circle at 12% 16%, rgba(217, 243, 106, 0.18), transparent 23rem),
+        radial-gradient(circle at 90% 20%, rgba(75, 123, 236, 0.2), transparent 24rem),
+        var(--deep);
+      color: #f5f6ed;
+    }
+
+    .dark .eyebrow { color: var(--lime); }
+    .dark .lead, .dark .small-copy { color: rgba(245, 246, 237, 0.72); }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      margin-top: 34px;
+    }
+
+    .tech-card {
+      min-height: 148px;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .tech-card b {
+      display: block;
+      margin-bottom: 16px;
+      color: var(--lime);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .tech-card span { font-weight: 850; letter-spacing: -0.03em; }
+
+    .pipeline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+      padding: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .pipeline span {
+      border-radius: 999px;
+      padding: 10px 13px;
+      background: rgba(217, 243, 106, 0.13);
+      color: #f7ffd2;
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .crm-grid {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .data-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .data-list li {
+      min-height: 112px;
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255, 250, 240, 0.74);
+      box-shadow: 0 14px 34px rgba(17, 37, 25, 0.06);
+      color: #38443c;
+      font-weight: 780;
+    }
+
+    .dashboard {
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: #102019;
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .dashboard__top {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 20px;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 13px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .bars { display: grid; gap: 13px; }
+    .bar span { display: flex; justify-content: space-between; margin-bottom: 7px; font-size: 14px; font-weight: 850; }
+    .bar i { display: block; height: 12px; border-radius: 999px; background: rgba(255,255,255,0.12); overflow: hidden; }
+    .bar i::before { content: ""; display: block; width: var(--w); height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--lime), var(--green-2)); }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .result-card {
+      min-height: 270px;
+      padding: 22px;
+      overflow: hidden;
+    }
+
+    .result-card strong {
+      display: block;
+      margin-bottom: 18px;
+      font-size: clamp(34px, 4vw, 56px);
+      line-height: 0.9;
+      letter-spacing: -0.08em;
+    }
+
+    .result-card p { color: var(--muted); font-weight: 720; }
+
+    .mini-bar {
+      width: 100%;
+      height: 11px;
+      margin-top: 22px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(20, 32, 25, 0.1);
+    }
+
+    .mini-bar i { display: block; width: var(--w); height: 100%; border-radius: inherit; background: var(--green); }
+
+    .proof-grid,
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .proof-card,
+    .role-card {
+      min-height: 170px;
+      padding: 22px;
+    }
+
+    .proof-card span,
+    .role-card span {
+      display: inline-grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 18px;
+      border-radius: 14px;
+      background: rgba(11, 143, 90, 0.11);
+      color: var(--green);
+      font-weight: 950;
+    }
+
+    .proof-card p,
+    .role-card p { margin: 0; color: var(--muted); font-weight: 720; }
+
+    .final {
+      padding-bottom: 120px;
+    }
+
+    .final-card {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(34px, 7vw, 82px);
+      border-radius: 44px;
+      background: linear-gradient(135deg, var(--lime), #fff0b9 42%, #ffffff 100%);
+      box-shadow: var(--shadow);
+    }
+
+    .final-card::after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      top: -100px;
+      width: 310px;
+      height: 310px;
+      border-radius: 999px;
+      background: rgba(11, 143, 90, 0.18);
+    }
+
+    .final-card h2 { max-width: 980px; margin-bottom: 0; }
+
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    [data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      [data-reveal] { opacity: 1; transform: none; transition: none; }
+    }
+
+    @media (max-width: 1040px) {
+      .hero__grid,
+      .challenge-grid,
+      .crm-grid { grid-template-columns: 1fr; }
+      .metrics,
+      .results-grid { grid-template-columns: repeat(2, 1fr); }
+      .flow,
+      .tech-grid { grid-template-columns: repeat(2, 1fr); }
+      .flow-step:not(:last-child)::after { display: none; }
+      .hero-art { min-height: 560px; }
+    }
+
+    @media (max-width: 760px) {
+      .nav { align-items: flex-start; border-radius: 24px; }
+      .nav__links { display: none; }
+      section { padding: 68px 0; }
+      .hero { padding-top: 54px; }
+      .hero-art { min-height: 500px; }
+      .bag { inset: 80px 28px auto; }
+      .mc-card { width: 154px; height: 98px; }
+      .receipt { width: 174px; }
+      .metrics,
+      .results-grid,
+      .flow,
+      .tech-grid,
+      .data-list,
+      .proof-grid,
+      .role-grid { grid-template-columns: 1fr; }
+      .problem-card { grid-template-columns: 1fr; }
+      .problem-card__label { justify-self: start; }
+      .timeline-item { grid-template-columns: 1fr; gap: 8px; padding-left: 54px; }
+    }
+  </style>
 </head>
 <body>
-  <header class="site-header" aria-label="Portfolio page header">
-    <a class="brand" href="#top" aria-label="Go to top">Bonus Bag</a>
-    <nav class="nav" aria-label="Case study sections">
-      <a href="#problem">Problem</a>
-      <a href="#mechanics">Mechanics</a>
-      <a href="#impact">Impact</a>
-      <a href="#role">Role</a>
-    </nav>
-  </header>
+  <div class="page">
+    <header class="nav" aria-label="Навигация по кейсу">
+      <a class="brand" href="#top">Незабываемая сумка</a>
+      <nav class="nav__links" aria-label="Разделы страницы">
+        <a href="#challenge">Задача</a>
+        <a href="#mechanic">Механика</a>
+        <a href="#data">Данные</a>
+        <a href="#results">Результаты</a>
+        <a href="#role">Моя роль</a>
+      </nav>
+    </header>
 
-  <main id="top">
-    <section class="hero section-shell">
-      <div class="hero__content">
-        <p class="eyebrow">Sustainability · Loyalty mechanics · Retail experience</p>
-        <h1>VkusVill reusable bag that paid customers back for skipping plastic.</h1>
-        <p class="hero__lead">
-          An English portfolio case study for the VkusVill “Bonus Bag” project: a reusable shopper with a QR-code reward flow that turned every plastic-bag-free purchase into a visible customer benefit.
-        </p>
-        <div class="hero__actions">
-          <a class="button button--primary" href="#solution">Read the case</a>
-          <a class="button button--secondary" href="https://parnii.wixsite.com/vv-bag-1" target="_blank" rel="noreferrer">View source project</a>
-        </div>
-      </div>
-      <aside class="hero-card" aria-label="Project snapshot">
-        <div class="bag-visual" aria-hidden="true">
-          <span class="bag-visual__handle"></span>
-          <span class="bag-visual__body">+6</span>
-        </div>
-        <dl class="snapshot">
-          <div>
-            <dt>Format</dt>
-            <dd>Retail sustainability campaign</dd>
+    <main id="top">
+      <section class="hero shell">
+        <div class="hero__grid">
+          <div data-reveal>
+            <p class="eyebrow">Career case-study · Retail loyalty · Sustainability</p>
+            <h1>Незабываемая сумка</h1>
+            <p class="lead">Как я спроектировал и запустил offline-to-online loyalty-механику с QR, POS-интеграцией и новым CRM-сегментом eco / near-eco покупателей</p>
+            <p class="small-copy">Региональный пилот, который связал физическое экологичное действие на кассе с картой лояльности, бонусами, Mastercard-стимулом и transaction-level analytics.</p>
+            <ul class="hero__tags" aria-label="Снимок проекта">
+              <li class="pill">Моя роль: concept, механика, координация, запуск</li>
+              <li class="pill">2020–2021</li>
+              <li class="pill">Санкт-Петербург</li>
+              <li class="pill">Implemented regional pilot</li>
+            </ul>
           </div>
-          <div>
-            <dt>Core idea</dt>
-            <dd>Reward reusable-bag behavior at checkout</dd>
-          </div>
-          <div>
-            <dt>Customer reward</dt>
-            <dd>6 bonuses for each avoided plastic bag</dd>
-          </div>
-        </dl>
-      </aside>
-    </section>
 
-    <section id="problem" class="content-grid section-shell">
-      <div class="section-kicker">01 · Problem</div>
-      <div class="section-copy">
-        <h2>Reusable bags existed, but remembering them was the real challenge.</h2>
-        <p>
-          The everyday grocery pattern was simple: customers intended to be more sustainable, yet the default checkout behavior often ended with buying another disposable plastic bag. The project needed to make the reusable bag memorable, useful, and economically rewarding.
-        </p>
-        <div class="insight-card">
-          <strong>Behavioral insight</strong>
-          <span>A shopper at home does not reduce plastic. A shopper remembered at checkout does.</span>
+          <aside class="hero-art" aria-label="Иллюстрация механики: сумка, QR, бонусы, Mastercard и чек" data-reveal>
+            <div class="bag" aria-hidden="true">
+              <div class="bag__title">QR → бонусы → данные</div>
+              <div class="qr" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+            <div class="bonus-coin" aria-hidden="true">+6</div>
+            <div class="mc-card" aria-hidden="true"><div class="mc-card__circles"></div><strong>+20 бонусов</strong></div>
+            <div class="receipt" aria-hidden="true"><i></i><i></i><i></i><strong>POS event</strong></div>
+          </aside>
         </div>
-      </div>
-    </section>
 
-    <section id="solution" class="split-section section-shell">
-      <div>
-        <p class="eyebrow">02 · Solution</p>
-        <h2>A bag with a built-in reason to bring it back.</h2>
-      </div>
-      <div class="solution-panel">
-        <p>
-          The Bonus Bag connected a physical reusable shopper to VkusVill’s loyalty system through a QR-code interaction. Customers scanned the bag at checkout and received bonuses instead of buying a plastic bag, transforming a sustainability choice into a repeatable loyalty moment.
-        </p>
-        <ul class="check-list">
-          <li>Simple physical cue: a branded reusable bag with an obvious QR code.</li>
-          <li>Immediate reward: bonuses credited for choosing the reusable option.</li>
-          <li>Clear value story: savings on plastic bags plus loyalty points.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="mechanics" class="mechanics section-shell">
-      <p class="eyebrow">03 · How it worked</p>
-      <h2>From checkout action to habit loop.</h2>
-      <div class="steps" aria-label="Bonus Bag mechanics">
-        <article class="step-card">
-          <span class="step-card__number">1</span>
-          <h3>Bring the reusable bag</h3>
-          <p>The customer carries the Bonus Bag instead of taking a new disposable plastic bag.</p>
-        </article>
-        <article class="step-card">
-          <span class="step-card__number">2</span>
-          <h3>Scan the bag QR code</h3>
-          <p>At checkout, the bag’s QR code is scanned alongside the customer loyalty card.</p>
-        </article>
-        <article class="step-card">
-          <span class="step-card__number">3</span>
-          <h3>Receive bonuses</h3>
-          <p>The customer receives 6 bonuses for not using a plastic bag, making the sustainable action measurable.</p>
-        </article>
-        <article class="step-card">
-          <span class="step-card__number">4</span>
-          <h3>Repeat the behavior</h3>
-          <p>The reward reinforces the habit and gives customers a reason to keep the bag in daily circulation.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="incentives section-shell">
-      <div class="metric-card metric-card--accent">
-        <span class="metric-card__value">6 = 6</span>
-        <span class="metric-card__label">6 bonuses equaled 6 rubles of perceived value</span>
-      </div>
-      <div class="metric-card">
-        <span class="metric-card__value">21</span>
-        <span class="metric-card__label">estimated shopping trips to pay back the bag through bonuses and avoided bag costs</span>
-      </div>
-      <div class="metric-card">
-        <span class="metric-card__value">+20</span>
-        <span class="metric-card__label">additional partner-card bonus mechanic during the promotional period</span>
-      </div>
-    </section>
-
-    <section class="content-grid section-shell">
-      <div class="section-kicker">04 · User incentives</div>
-      <div class="section-copy">
-        <h2>The project made sustainability feel practical rather than abstract.</h2>
-        <p>
-          Customers were motivated by a layered value proposition: they avoided paying for a disposable bag, collected loyalty bonuses, and could mentally translate repeated use into everyday grocery items. The mechanic reduced friction by fitting into the existing checkout and loyalty-card flow.
-        </p>
-        <div class="pill-row" aria-label="Incentive themes">
-          <span>Money saved</span>
-          <span>Bonuses earned</span>
-          <span>Visible eco-action</span>
-          <span>Habit formation</span>
+        <div class="metrics" aria-label="Ключевые метрики проекта" data-reveal>
+          <article class="metric"><strong>2 630</strong><span>проданных сумок</span></article>
+          <article class="metric"><strong>54,6%</strong><span>activation rate</span></article>
+          <article class="metric"><strong>24 589</strong><span>транзакций со сканированием сумки</span></article>
+          <article class="metric"><strong>9,35</strong><span>транзакции на проданную сумку</span></article>
+          <article class="metric"><strong>59,2%</strong><span>транзакций внутри механики оплачены Mastercard</span></article>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="impact" class="impact section-shell">
-      <div class="impact__intro">
-        <p class="eyebrow">05 · Impact & business value</p>
-        <h2>A small checkout interaction created value for customers, brand, and operations.</h2>
-      </div>
-      <div class="impact-grid">
-        <article>
-          <h3>Lower plastic-bag dependency</h3>
-          <p>Every rewarded scan encouraged customers to replace a single-use bag with a reusable alternative.</p>
-        </article>
-        <article>
-          <h3>Stronger loyalty engagement</h3>
-          <p>The mechanic gave the loyalty card another meaningful use case beyond discounts and points accumulation.</p>
-        </article>
-        <article>
-          <h3>Memorable brand behavior</h3>
-          <p>The bag became a visible reminder of VkusVill’s eco-positioning and customer-centric reward design.</p>
-        </article>
-        <article>
-          <h3>Measurable campaign loop</h3>
-          <p>QR scans created a trackable touchpoint that could connect sustainable behavior to purchase frequency.</p>
-        </article>
-      </div>
-    </section>
+      <section id="challenge" class="shell">
+        <div class="challenge-grid">
+          <div data-reveal>
+            <p class="eyebrow">01 · Business challenge</p>
+            <h2>Задача была не в том, чтобы просто продать сумку</h2>
+            <p class="lead">Проект должен был превратить хорошее намерение в повторяемое действие, а действие — в измеримый CRM- и партнёрский сценарий.</p>
+          </div>
+          <div class="problem-cards" data-reveal>
+            <article class="problem-card card">
+              <span class="problem-card__label">Бизнес</span>
+              <div>
+                <p><strong>Проблема:</strong> мало поведенческих CRM-признаков eco / near-eco аудитории; карта лояльности используется не во всех сценариях.</p>
+                <p><strong>Сценарий:</strong> QR на сумке связывал использование с Loyalty ID и добавлял новый поведенческий сигнал.</p>
+              </div>
+            </article>
+            <article class="problem-card card">
+              <span class="problem-card__label">Покупатель</span>
+              <div>
+                <p><strong>Проблема:</strong> люди забывают многоразовые сумки; экологичное поведение часто строится на чувстве вины.</p>
+                <p><strong>Сценарий:</strong> кассовый ритуал и бонусы превращали «не забыть сумку» в позитивное подкрепление.</p>
+              </div>
+            </article>
+            <article class="problem-card card">
+              <span class="problem-card__label">Партнёр</span>
+              <div>
+                <p><strong>Проблема:</strong> sustainability-кампании часто плохо измеримы; Mastercard нужен сценарий с оплатой, бонусом, транзакциями и отчётностью.</p>
+                <p><strong>Сценарий:</strong> Mastercard-оплата давала дополнительный стимул и попадала в transaction-level reporting.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
 
-    <section id="role" class="role section-shell">
-      <div class="role-card">
-        <p class="eyebrow">06 · My role</p>
-        <h2>Turning the original Russian project into a clear English case study.</h2>
-        <p>
-          I reframed the campaign for an international portfolio audience: clarified the customer problem, translated the mechanics, structured the business value, and designed this static landing page for GitHub Pages deployment.
-        </p>
-      </div>
-      <div class="skills-card">
-        <p class="eyebrow">Skills demonstrated</p>
-        <ul>
-          <li>Portfolio storytelling and case-study structure</li>
-          <li>Sustainability and loyalty-mechanic analysis</li>
-          <li>Responsive landing-page design</li>
-          <li>Static HTML/CSS implementation</li>
-          <li>GitHub Pages deployment readiness</li>
-        </ul>
-      </div>
-    </section>
-  </main>
+      <section id="mechanic" class="shell">
+        <p class="eyebrow" data-reveal>02 · Solution / mechanic</p>
+        <h2 data-reveal>Один QR связывал сумку, кассу, карту лояльности, бонус и данные</h2>
+        <p class="lead" data-reveal>Механика была спроектирована как короткий checkout-flow: покупатель приносит физический объект, касса фиксирует событие, loyalty-система начисляет бонусы, а CRM получает новый слой поведения.</p>
+        <div class="flow" aria-label="Процесс механики" data-reveal>
+          <article class="flow-step"><div class="icon">🛍️</div><h3>Покупка сумки с QR</h3><p>Вход в механику через физический reusable-носитель.</p></article>
+          <article class="flow-step"><div class="icon">🏬</div><h3>Возврат в магазин</h3><p>Покупатель приходит с сумкой в следующий визит.</p></article>
+          <article class="flow-step"><div class="icon">▦</div><h3>Скан на кассе</h3><p>QR фиксируется в POS-сценарии вместе с покупкой.</p></article>
+          <article class="flow-step"><div class="icon">💳</div><h3>Loyalty ID</h3><p>Покупка связывается с картой лояльности.</p></article>
+          <article class="flow-step"><div class="icon">🟡</div><h3>+6 бонусов</h3><p>Базовый стимул за использование сумки.</p></article>
+          <article class="flow-step"><div class="icon">🔴</div><h3>+20 Mastercard</h3><p>Дополнительные бонусы при оплате Mastercard.</p></article>
+          <article class="flow-step"><div class="icon">📊</div><h3>Событие в данных</h3><p>Транзакция становится доступной для отчётности и CRM.</p></article>
+        </div>
+      </section>
 
-  <footer class="site-footer">
-    <p>VkusVill Bonus Bag sustainability case study · Portfolio landing page</p>
-    <a href="#top">Back to top</a>
-  </footer>
+      <section id="timeline" class="shell">
+        <p class="eyebrow" data-reveal>03 · Timeline</p>
+        <h2 data-reveal>Пилот прошёл путь от рисков и технологии до отчётности и rollout decision</h2>
+        <div class="timeline-wrap" data-reveal>
+          <article class="timeline-item"><div class="timeline-date">январь 2020</div><div class="timeline-card">Обсуждение цены и рисков.</div></article>
+          <article class="timeline-item"><div class="timeline-date">сентябрь 2020</div><div class="timeline-card">Технология производства, QR-бирка, UX размещения кода.</div></article>
+          <article class="timeline-item"><div class="timeline-date">октябрь 2020</div><div class="timeline-card">Проработка bonus logic.</div></article>
+          <article class="timeline-item"><div class="timeline-date">ноябрь 2020</div><div class="timeline-card">SQL-процедура, тестовые покупки, ручной прогон, push.</div></article>
+          <article class="timeline-item"><div class="timeline-date">январь–февраль 2021</div><div class="timeline-card">Договор, правила акции, юридические формулировки.</div></article>
+          <article class="timeline-item"><div class="timeline-date">15 марта 2021</div><div class="timeline-card">Старт акции.</div></article>
+          <article class="timeline-item"><div class="timeline-date">март–апрель 2021</div><div class="timeline-card">Лендинг, правила, Mastercard offer page, SMM, push, офлайн-коммуникации.</div></article>
+          <article class="timeline-item"><div class="timeline-date">май–июнь 2021</div><div class="timeline-card">Review, отчёты, 1 600 проданных сумок, 12 480 сканирований, 2 131 проданная сумка за 3,5 месяца.</div></article>
+          <article class="timeline-item"><div class="timeline-date">июль–август 2021</div><div class="timeline-card">Продление Mastercard, подготовка расширения регионов.</div></article>
+          <article class="timeline-item"><div class="timeline-date">сентябрь 2021</div><div class="timeline-card">Финальный отчёт.</div></article>
+        </div>
+      </section>
+
+      <section id="data" class="dark">
+        <div class="shell">
+          <p class="eyebrow" data-reveal>04 · Technical / data logic</p>
+          <h2 data-reveal>Под retail-механикой была продуктовая архитектура данных</h2>
+          <p class="lead" data-reveal>Важно было не просто начислить бонус, а корректно поймать событие на кассе, связать его с покупателем, типом оплаты, бонусной таксономией и отчётностью.</p>
+          <div class="tech-grid" aria-label="Архитектура данных" data-reveal>
+            <article class="tech-card"><b>01</b><span>QR tracking</span></article>
+            <article class="tech-card"><b>02</b><span>POS integration</span></article>
+            <article class="tech-card"><b>03</b><span>Loyalty ID</span></article>
+            <article class="tech-card"><b>04</b><span>Payment method detection</span></article>
+            <article class="tech-card"><b>05</b><span>Transaction-level reporting</span></article>
+            <article class="tech-card"><b>06</b><span>Bonus type taxonomy</span></article>
+            <article class="tech-card"><b>07</b><span>CRM segmentation</span></article>
+          </div>
+          <div class="pipeline" aria-label="Техническая последовательность" data-reveal>
+            <span>requirements</span>
+            <span>POS event capture</span>
+            <span>SQL batch processing</span>
+            <span>UAT / приёмочное тестирование</span>
+            <span>launch readiness</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="crm" class="shell">
+        <div class="crm-grid">
+          <div data-reveal>
+            <p class="eyebrow">05 · CRM value</p>
+            <h2>Главная ценность была не в продаже сумок, а в новом слое клиентских данных</h2>
+            <p class="lead">Сумка стала поведенческим маркером: не декларацией интереса к sustainability, а фактом повторяющегося действия в покупательском сценарии.</p>
+            <div class="dashboard" aria-label="Мини-дашборд CRM-логики">
+              <div class="dashboard__top"><span>Eco / near-eco segment</span><span>transaction logic</span></div>
+              <div class="bars">
+                <div class="bar" style="--w:54.6%"><span><b>Activation rate</b><b>54,6%</b></span><i></i></div>
+                <div class="bar" style="--w:59.2%"><span><b>Mastercard share</b><b>59,2%</b></span><i></i></div>
+              </div>
+            </div>
+          </div>
+          <ul class="data-list" data-reveal>
+            <li>Видеть, кто купил сумку.</li>
+            <li>Видеть, кто начал её использовать.</li>
+            <li>Считать activation rate.</li>
+            <li>Смотреть frequency.</li>
+            <li>Выделять Mastercard-транзакции.</li>
+            <li>Относить клиентов к eco / near-eco сегменту.</li>
+            <li>Запускать коммуникации тем, кто купил, но не начал пользоваться.</li>
+            <li>Возвращать тех, кто перестал сканировать.</li>
+            <li>Проверять связь между использованием сумки и частотой покупок.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="results" class="shell">
+        <p class="eyebrow" data-reveal>06 · Results</p>
+        <h2 data-reveal>Метрики показали не разовую покупку, а масштаб повторяемого поведения</h2>
+        <div class="results-grid" data-reveal>
+          <article class="result-card card"><strong>2 630</strong><h3>проданных сумок</h3><p>Вход в механику: количество покупателей, которые получили физический reusable-носитель.</p></article>
+          <article class="result-card card"><strong>54,6%</strong><h3>activation rate</h3><p>Доля купленных сумок, которые реально начали использовать в кассовом сценарии.</p></article>
+          <article class="result-card card"><strong>24 589</strong><h3>транзакций</h3><p>Масштаб повторяемого поведения со сканированием сумки.</p></article>
+          <article class="result-card card"><strong>9,35</strong><h3>на сумку</h3><p>Среднее использование: транзакции со сканированием на проданную сумку.</p></article>
+          <article class="result-card card"><strong>59,2%</strong><h3>Mastercard share</h3><p>Роль платёжного партнёра внутри механики и отчётности.</p></article>
+        </div>
+      </section>
+
+      <section id="proved" class="shell">
+        <p class="eyebrow" data-reveal>07 · What the pilot proved</p>
+        <h2 data-reveal>Что подтвердил пилот</h2>
+        <div class="proof-grid" data-reveal>
+          <article class="proof-card card"><span>1</span><h3>Поведение повторялось</h3><p>Покупатели начали возвращаться с сумкой и сканировать её на кассе.</p></article>
+          <article class="proof-card card"><span>2</span><h3>Появилась activation funnel</h3><p>Можно было отделить покупку сумки от факта реального использования.</p></article>
+          <article class="proof-card card"><span>3</span><h3>CRM получил признак</h3><p>Eco / near-eco сегмент стал строиться на поведении, а не на предположении.</p></article>
+          <article class="proof-card card"><span>4</span><h3>Карта лояльности получила сценарий</h3><p>Лояльность подключалась не только к скидке, но и к экологичному действию.</p></article>
+          <article class="proof-card card"><span>5</span><h3>Партнёр встроился в транзакцию</h3><p>Mastercard-логика была связана с оплатой, стимулом и отчётностью.</p></article>
+          <article class="proof-card card"><span>6</span><h3>Появилась основа для rollout</h3><p>Решение о масштабировании можно было обсуждать на данных пилота.</p></article>
+        </div>
+      </section>
+
+      <section id="role" class="shell">
+        <p class="eyebrow" data-reveal>08 · My role / marketable skills</p>
+        <h2 data-reveal>Что именно делал я</h2>
+        <p class="lead" data-reveal>Моя работа была на стыке продукта, CRM, кассовой логики, партнёрства, юридических правил и запуска — чтобы sustainability-идея стала операционной механикой.</p>
+        <div class="role-grid" data-reveal>
+          <article class="role-card card"><span>01</span><h3>Concept design</h3><p>Собрал идею в понятный retail-сценарий.</p></article>
+          <article class="role-card card"><span>02</span><h3>Cross-functional PM</h3><p>Связывал sustainability, CRM, IT, кассу, юристов, маркетинг и партнёра.</p></article>
+          <article class="role-card card"><span>03</span><h3>Loyalty mechanic design</h3><p>Прорабатывал bonus logic и стимулы.</p></article>
+          <article class="role-card card"><span>04</span><h3>POS / QR / data requirements</h3><p>Формулировал требования к кассовому событию и данным.</p></article>
+          <article class="role-card card"><span>05</span><h3>Stakeholder coordination</h3><p>Согласовывал решения между внутренними командами и Mastercard.</p></article>
+          <article class="role-card card"><span>06</span><h3>Legal and promo rules alignment</h3><p>Доводил механику до правил акции и юридических формулировок.</p></article>
+          <article class="role-card card"><span>07</span><h3>Partner logic with Mastercard</h3><p>Встраивал партнёрский стимул в оплату и отчётность.</p></article>
+          <article class="role-card card"><span>08</span><h3>Launch readiness and testing</h3><p>Участвовал в тестовых покупках, UAT и подготовке запуска.</p></article>
+          <article class="role-card card"><span>09</span><h3>Reporting logic</h3><p>Помогал связать механику с transaction-level analytics.</p></article>
+          <article class="role-card card"><span>10</span><h3>Sustainability-to-business translation</h3><p>Переводил экологическое поведение в measurable business outcome.</p></article>
+        </div>
+      </section>
+
+      <section class="final shell">
+        <div class="final-card" data-reveal>
+          <p class="eyebrow">Final thought</p>
+          <h2>Этот проект превратил sustainability-идею в систему, где компания могла видеть поведение, стимулировать его, сегментировать аудиторию, строить партнёрскую отчётность и принимать решения о масштабировании.</h2>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const revealItems = document.querySelectorAll('[data-reveal]');
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.14 });
+
+      revealItems.forEach((item) => observer.observe(item));
+    } else {
+      revealItems.forEach((item) => item.classList.add('is-visible'));
+    }
+  </script>
 </body>
 </html>
